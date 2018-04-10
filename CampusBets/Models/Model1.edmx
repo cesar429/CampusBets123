@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CampusBetsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bet_Tiket">
+          <Key>
+            <PropertyRef Name="Id_Tiket" />
+          </Key>
+          <Property Name="Id_Tiket" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Id_Ev" Type="nvarchar" MaxLength="5" />
+          <Property Name="Amount" Type="float" />
+          <Property Name="Potential_Win" Type="float" />
+          <Property Name="Total_Odd" Type="float" />
+        </EntityType>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="Id_Ev" />
+          </Key>
+          <Property Name="Id_Ev" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Id_Team1" Type="nvarchar" MaxLength="5" />
+          <Property Name="Id_Team2" Type="nvarchar" MaxLength="5" />
+          <Property Name="Date_And_Time" Type="datetime" />
+          <Property Name="Id_Tip" Type="nvarchar" MaxLength="5" />
+          <Property Name="Odd_1" Type="float" />
+          <Property Name="Odd_x" Type="float" />
+          <Property Name="Odd_2" Type="float" />
+          <Property Name="Odd_GG" Type="float" />
+          <Property Name="Odd_peste25" Type="float" />
+          <Property Name="Odd_sub25" Type="float" />
+          <Property Name="Odd_SC" Type="float" />
+          <Property Name="Odd_1x" Type="float" />
+          <Property Name="Odd_12" Type="float" />
+          <Property Name="Odd_x2" Type="float" />
+        </EntityType>
+        <EntityType Name="Teams">
+          <Key>
+            <PropertyRef Name="Id_Team" />
+          </Key>
+          <Property Name="Id_Team" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Country" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Competition" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Classement_Place" Type="int" Nullable="false" />
+          <Property Name="Form" Type="char" MaxLength="10" />
+          <Property Name="Goals" Type="int" />
+        </EntityType>
+        <EntityType Name="Tip_Event">
+          <Key>
+            <PropertyRef Name="Id_Tip" />
+          </Key>
+          <Property Name="Id_Tip" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Denumire" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Bet_Tiket_Events">
+          <End Role="Events" Type="Self.Events" Multiplicity="0..1" />
+          <End Role="Bet_Tiket" Type="Self.Bet_Tiket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="Id_Ev" />
+            </Principal>
+            <Dependent Role="Bet_Tiket">
+              <PropertyRef Name="Id_Ev" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Events_Teams">
+          <End Role="Teams" Type="Self.Teams" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="Id_Team" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="Id_Team1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Events_Teams1">
+          <End Role="Teams" Type="Self.Teams" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="Id_Team" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="Id_Team2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Events_Tip_Event">
+          <End Role="Tip_Event" Type="Self.Tip_Event" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tip_Event">
+              <PropertyRef Name="Id_Tip" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="Id_Tip" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CampusBetsModelStoreContainer">
+          <EntitySet Name="Bet_Tiket" EntityType="Self.Bet_Tiket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tip_Event" EntityType="Self.Tip_Event" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Bet_Tiket_Events" Association="Self.FK_Bet_Tiket_Events">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="Bet_Tiket" EntitySet="Bet_Tiket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Events_Teams" Association="Self.FK_Events_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Events_Teams1" Association="Self.FK_Events_Teams1">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Events_Tip_Event" Association="Self.FK_Events_Tip_Event">
+            <End Role="Tip_Event" EntitySet="Tip_Event" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CampusBetsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bet_Tiket">
+          <Key>
+            <PropertyRef Name="Id_Tiket" />
+          </Key>
+          <Property Name="Id_Tiket" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id_Ev" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="Potential_Win" Type="Double" />
+          <Property Name="Total_Odd" Type="Double" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_Bet_Tiket_Events" FromRole="Bet_Tiket" ToRole="Events" />
+        </EntityType>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="Id_Ev" />
+          </Key>
+          <Property Name="Id_Ev" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id_Team1" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Id_Team2" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Date_And_Time" Type="DateTime" Precision="3" />
+          <Property Name="Id_Tip" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Odd_1" Type="Double" />
+          <Property Name="Odd_x" Type="Double" />
+          <Property Name="Odd_2" Type="Double" />
+          <Property Name="Odd_GG" Type="Double" />
+          <Property Name="Odd_peste25" Type="Double" />
+          <Property Name="Odd_sub25" Type="Double" />
+          <Property Name="Odd_SC" Type="Double" />
+          <Property Name="Odd_1x" Type="Double" />
+          <Property Name="Odd_12" Type="Double" />
+          <Property Name="Odd_x2" Type="Double" />
+          <NavigationProperty Name="Bet_Tiket" Relationship="Self.FK_Bet_Tiket_Events" FromRole="Events" ToRole="Bet_Tiket" />
+          <NavigationProperty Name="Teams" Relationship="Self.FK_Events_Teams" FromRole="Events" ToRole="Teams" />
+          <NavigationProperty Name="Teams1" Relationship="Self.FK_Events_Teams1" FromRole="Events" ToRole="Teams" />
+          <NavigationProperty Name="Tip_Event" Relationship="Self.FK_Events_Tip_Event" FromRole="Events" ToRole="Tip_Event" />
+        </EntityType>
+        <EntityType Name="Teams">
+          <Key>
+            <PropertyRef Name="Id_Team" />
+          </Key>
+          <Property Name="Id_Team" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Competition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Classement_Place" Type="Int32" Nullable="false" />
+          <Property Name="Form" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Goals" Type="Int32" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_Events_Teams" FromRole="Teams" ToRole="Events" />
+          <NavigationProperty Name="Events1" Relationship="Self.FK_Events_Teams1" FromRole="Teams" ToRole="Events" />
+        </EntityType>
+        <EntityType Name="Tip_Event">
+          <Key>
+            <PropertyRef Name="Id_Tip" />
+          </Key>
+          <Property Name="Id_Tip" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Denumire" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_Events_Tip_Event" FromRole="Tip_Event" ToRole="Events" />
+        </EntityType>
+        <Association Name="FK_Bet_Tiket_Events">
+          <End Role="Events" Type="Self.Events" Multiplicity="0..1" />
+          <End Role="Bet_Tiket" Type="Self.Bet_Tiket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="Id_Ev" />
+            </Principal>
+            <Dependent Role="Bet_Tiket">
+              <PropertyRef Name="Id_Ev" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Events_Teams">
+          <End Role="Teams" Type="Self.Teams" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="Id_Team" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="Id_Team1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Events_Teams1">
+          <End Role="Teams" Type="Self.Teams" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="Id_Team" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="Id_Team2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Events_Tip_Event">
+          <End Role="Tip_Event" Type="Self.Tip_Event" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tip_Event">
+              <PropertyRef Name="Id_Tip" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="Id_Tip" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CampusBetsEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bet_Tiket" EntityType="Self.Bet_Tiket" />
+          <EntitySet Name="Events" EntityType="Self.Events" />
+          <EntitySet Name="Teams" EntityType="Self.Teams" />
+          <EntitySet Name="Tip_Event" EntityType="Self.Tip_Event" />
+          <AssociationSet Name="FK_Bet_Tiket_Events" Association="Self.FK_Bet_Tiket_Events">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="Bet_Tiket" EntitySet="Bet_Tiket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Events_Teams" Association="Self.FK_Events_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Events_Teams1" Association="Self.FK_Events_Teams1">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Events_Tip_Event" Association="Self.FK_Events_Tip_Event">
+            <End Role="Tip_Event" EntitySet="Tip_Event" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CampusBetsModelStoreContainer" CdmEntityContainer="CampusBetsEntities1">
+          <EntitySetMapping Name="Bet_Tiket">
+            <EntityTypeMapping TypeName="CampusBetsModel.Bet_Tiket">
+              <MappingFragment StoreEntitySet="Bet_Tiket">
+                <ScalarProperty Name="Id_Tiket" ColumnName="Id_Tiket" />
+                <ScalarProperty Name="Id_Ev" ColumnName="Id_Ev" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Potential_Win" ColumnName="Potential_Win" />
+                <ScalarProperty Name="Total_Odd" ColumnName="Total_Odd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="CampusBetsModel.Events">
+              <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="Id_Ev" ColumnName="Id_Ev" />
+                <ScalarProperty Name="Id_Team1" ColumnName="Id_Team1" />
+                <ScalarProperty Name="Id_Team2" ColumnName="Id_Team2" />
+                <ScalarProperty Name="Date_And_Time" ColumnName="Date_And_Time" />
+                <ScalarProperty Name="Id_Tip" ColumnName="Id_Tip" />
+                <ScalarProperty Name="Odd_1" ColumnName="Odd_1" />
+                <ScalarProperty Name="Odd_x" ColumnName="Odd_x" />
+                <ScalarProperty Name="Odd_2" ColumnName="Odd_2" />
+                <ScalarProperty Name="Odd_GG" ColumnName="Odd_GG" />
+                <ScalarProperty Name="Odd_peste25" ColumnName="Odd_peste25" />
+                <ScalarProperty Name="Odd_sub25" ColumnName="Odd_sub25" />
+                <ScalarProperty Name="Odd_SC" ColumnName="Odd_SC" />
+                <ScalarProperty Name="Odd_1x" ColumnName="Odd_1x" />
+                <ScalarProperty Name="Odd_12" ColumnName="Odd_12" />
+                <ScalarProperty Name="Odd_x2" ColumnName="Odd_x2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="CampusBetsModel.Teams">
+              <MappingFragment StoreEntitySet="Teams">
+                <ScalarProperty Name="Id_Team" ColumnName="Id_Team" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Competition" ColumnName="Competition" />
+                <ScalarProperty Name="Classement_Place" ColumnName="Classement_Place" />
+                <ScalarProperty Name="Form" ColumnName="Form" />
+                <ScalarProperty Name="Goals" ColumnName="Goals" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tip_Event">
+            <EntityTypeMapping TypeName="CampusBetsModel.Tip_Event">
+              <MappingFragment StoreEntitySet="Tip_Event">
+                <ScalarProperty Name="Id_Tip" ColumnName="Id_Tip" />
+                <ScalarProperty Name="Denumire" ColumnName="Denumire" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
