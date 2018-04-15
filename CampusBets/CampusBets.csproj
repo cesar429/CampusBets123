@@ -193,11 +193,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BalanceController.cs" />
+    <Compile Include="Controllers\EventListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ProductContext.cs" />
     <Compile Include="Helpers\IdentityHelpers.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -313,6 +315,7 @@
     <Content Include="Views\Home\EventList.cshtml" />
     <Content Include="Views\Home\MyTicket.cshtml" />
     <Content Include="Views\Balance\Balance.cshtml" />
+    <Content Include="Views\EventList\EventList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

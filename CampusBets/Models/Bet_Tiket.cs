@@ -11,9 +11,11 @@ namespace CampusBets.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Bet_Tiket
     {
+        [Key]
         public string Id_Tiket { get; set; }
         public string Id_Ev { get; set; }
         public Nullable<double> Amount { get; set; }

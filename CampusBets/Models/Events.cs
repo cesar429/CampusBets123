@@ -11,7 +11,8 @@ namespace CampusBets.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Events
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,8 +20,8 @@ namespace CampusBets.Models
         {
             this.Bet_Tiket = new HashSet<Bet_Tiket>();
         }
-    
-        public string Id_Ev { get; set; }
+        [Key]
+        public System.Guid Id_Ev { get; set; }
         public string Id_Team1 { get; set; }
         public string Id_Team2 { get; set; }
         public Nullable<System.DateTime> Date_And_Time { get; set; }
